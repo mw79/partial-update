@@ -1,8 +1,6 @@
 ### Patch Tools
 This library created to help serialize, deserialize, pass through application
 layers and collect all changes on each layer in DTOs, Models, Entities etc.
-
-[TOC]
 ### Subject intro
 While implementing HTTP PATCH method for partially update we
 should deserialize data from request body to DTO, proceed
@@ -113,8 +111,8 @@ class which could instantiate wrappers for abstract classes or interfaces with
 abstract methods handling, interpreting its input parameters and return values
 and using corresponding ObjectMapper for mapping POJOs.<br>
 Method Interceptor of wrapped mapper could distinguish two cases:
-* abstract method returns non void result;
-* abstract method returns void;
+* abstract method returns non void result(convert pattern method);
+* abstract method returns void(update pattern method);
 
 In the first case interceptor will create result instance and then map all
 method arguments to result instance one by one.
