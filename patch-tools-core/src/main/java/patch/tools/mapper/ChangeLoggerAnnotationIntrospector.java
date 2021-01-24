@@ -14,11 +14,26 @@ import patch.tools.annotation.ChangeLogger;
 
 import java.lang.reflect.Method;
 
+/**
+ * This class overrides some methods of JacksonAnnotationIntrospector class
+ * and:
+ * <ul>
+ *     <li>creates Value Instantiators for classes annotated by {@literal @ChangeLogger} annotation;</li>
+ *     <li>creates Converters for classes annotated by {@literal @ChangeLogger} annotation</li>
+ *     <li>excludes setCallbacks setter of CGlib's Enhancer class from deserialization process;</li>
+ * </ul>
+ */
 public class ChangeLoggerAnnotationIntrospector extends JacksonAnnotationIntrospector {
 
 	private static final String SET_CALLBACK_METHOD_NAME = "setCallbacks";
 
-    @Override
+	/**
+	 * Method creates Value Instantiator for classes annotated by {@literal @ChangeLogger} annotation
+	 * @param ac contains information about class which should be deserialized
+	 * @return WrappedValueInstantiator for class annotated by {@literal @ChangeLogger} annotation
+	 * or default value instantiator for others
+	 */
+	@Override
     public Object findValueInstantiator(AnnotatedClass ac) {
         if (_findAnnotation(ac, ChangeLogger.class) != null) {
             return new WrappedValueInstantiator<>(ac.getRawType());
@@ -26,7 +41,13 @@ public class ChangeLoggerAnnotationIntrospector extends JacksonAnnotationIntrosp
         return super.findValueInstantiator(ac);
     }
 
-    @Override
+	/**
+	 *
+	 * @param a contains information about class of field which should be serialized
+	 * @return ChangeLoggerConverter instance if class of field annotated by
+	 * {@literal @ChangeLogger} annotation or else default converter
+	 */
+	@Override
     public Object findSerializationConverter(Annotated a) {
         if (_findAnnotation(a, ChangeLogger.class) != null) {
             return new ChangeLoggerConverter();
@@ -34,7 +55,13 @@ public class ChangeLoggerAnnotationIntrospector extends JacksonAnnotationIntrosp
         return super.findSerializationConverter(a);
     }
 
-    @Override
+	/**
+	 * Method excludes setCallbacks setter of CGlib's Enhancer class from deserialization process
+	 * @param m contains information about member(field, method or class)
+	 * @return true if member is a setCallbacks method with corresponding parameters or
+	 * else default value
+	 */
+	@Override
 	public boolean hasIgnoreMarker(AnnotatedMember m) {
     	if (m.getMember() instanceof Method &&
 			    SET_CALLBACK_METHOD_NAME.equals(m.getName())) {

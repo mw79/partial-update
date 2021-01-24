@@ -19,21 +19,35 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Class implements logic for both mapper method types (convert and update) and
+ * MethodInterceptor interface for handling methods calling
+ */
 public class PatchMapperMethodInvokeHandler implements MethodInterceptor {
 
-		private static final Constructor<MethodHandles.Lookup> LOOKUP_CONSTRUCTOR;
-		static {
-			try {
-				LOOKUP_CONSTRUCTOR = MethodHandles.Lookup.class.getDeclaredConstructor(Class.class);
-				LOOKUP_CONSTRUCTOR.setAccessible(true);
-			} catch (NoSuchMethodException e) {
-				throw new NoSuchMethodError(e.getMessage());
-			}
+	private static final Constructor<MethodHandles.Lookup> LOOKUP_CONSTRUCTOR;
+	static {
+		try {
+			LOOKUP_CONSTRUCTOR = MethodHandles.Lookup.class.getDeclaredConstructor(Class.class);
+			LOOKUP_CONSTRUCTOR.setAccessible(true);
+		} catch (NoSuchMethodException e) {
+			throw new NoSuchMethodError(e.getMessage());
 		}
+	}
 
     private final Map<Method, ObjectMapper> converters = new HashMap<>();
 
-    @Override
+	/**
+	 * Method is handler for all wrapper's methods. It calls original method if it is not abstract
+	 * or choose one of two implementations based on arguments and return type
+ 	 * @param o "this", the enhanced object
+	 * @param method intercepted Method
+	 * @param objects argument array; primitive types are wrapped
+	 * @param methodProxy used to invoke super (non-intercepted method); may be called as many times as needed
+	 * @return any value compatible with the signature of the proxied method. Method returning void will ignore this value.
+	 * @throws Throwable any exception may be thrown; if so, super method will not be invoked
+	 */
+	@Override
     public Object intercept(Object o, Method method, Object[] objects, MethodProxy methodProxy) throws Throwable {
     	return isMethodAbstract(method) ?
     		invokeAbstractMethod(o, method, objects) :

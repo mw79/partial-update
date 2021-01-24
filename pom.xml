@@ -9,7 +9,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>patch.tools</groupId>
+    <groupId>in.multi-tools</groupId>
     <artifactId>patch-tools</artifactId>
     <version>0.1.0-SNAPSHOT</version>
     <modules>
@@ -21,6 +21,9 @@
         <cglib.version>3.2.4</cglib.version>
         <common.beanutils.version>1.9.3</common.beanutils.version>
         <compiler.plugin.version>3.8.0</compiler.plugin.version>
+	      <javadoc.plugin.version>3.1.0</javadoc.plugin.version>
+		    <source.plugin.version>3.0.1</source.plugin.version>
+	      <install.plugin.version>3.0.0-M1</install.plugin.version>
         <junit.version>4.12</junit.version>
         <lombok.version>1.18.4</lombok.version>
         <mockito.version>2.23.4</mockito.version>
@@ -76,6 +79,40 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>${compiler.plugin.version}</version>
                 </plugin>
+		            <plugin>
+				            <groupId>org.apache.maven.plugins</groupId>
+				            <artifactId>maven-source-plugin</artifactId>
+			              <version>${source.plugin.version}</version>
+				            <executions>
+						            <execution>
+								            <id>attach-sources</id>
+								            <goals>
+										            <goal>jar</goal>
+								            </goals>
+						            </execution>
+				            </executions>
+		            </plugin>
+		            <plugin>
+				            <groupId>org.apache.maven.plugins</groupId>
+				            <artifactId>maven-javadoc-plugin</artifactId>
+			              <version>${javadoc.plugin.version}</version>
+				            <executions>
+						            <execution>
+								            <id>attach-javadocs</id>
+								            <goals>
+										            <goal>jar</goal>
+								            </goals>
+						            </execution>
+				            </executions>
+		            </plugin>
+	              <plugin>
+		                <groupId>org.apache.maven.plugins</groupId>
+		                <artifactId>maven-install-plugin</artifactId>
+		                <version>${install.plugin.version}</version>
+		                <configuration>
+			                  <createChacksum>true</createChacksum>
+		                </configuration>
+	              </plugin>
             </plugins>
         </pluginManagement>
     </build>

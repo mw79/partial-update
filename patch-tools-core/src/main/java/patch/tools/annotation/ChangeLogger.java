@@ -10,6 +10,12 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * This annotation used by ChangeLoggerAnnotationIntrospector class.
+ * If class which should be created while deserializing is annotated by this annotation
+ * then wrapped class will be created, so this class will implemented ChangeLogger interface
+ * and will intercept all setters calls.
+ */
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ChangeLogger {

@@ -19,26 +19,39 @@ import java.util.Set;
 
 import static patch.tools.PatchToolsUtil.getArgumentTypes;
 
+/**
+ * Class should be used for instantiation POJO {@literal <T>} wrappers
+ * which implemented ChangeLogger interface and collecting POJO instance's
+ * modified fields
+ * @param <T> is a POJO class for wrapper instantiation
+ */
 public class ChangeLoggerProducer<T> {
 
     private static final String SETTER_PREFIX = "set";
     private static final int SETTER_PREFIX_LENGTH = SETTER_PREFIX.length();
     private static final Class[] INTERFACES = new Class[] { ChangeLogger.class };
+
     private Class<T> superclass;
     private Object[] constructorArguments;
     private Class[] constructorTypes;
 
-    public ChangeLoggerProducer(Class<T> superclass) {
+	/**
+	 * Constructor for ChangeLoggerProducer class which should instantiates wrapped
+	 * {@literal <T>} class by calling it's constructor with arguments
+	 * @param superclass {@literal Class<T>}
+	 * @param constructorArguments arguments for {@literal <T>} class constructor
+	 */
+	public ChangeLoggerProducer(Class<T> superclass, Object... constructorArguments) {
         this.superclass = superclass;
-    }
-
-    public ChangeLoggerProducer(Class<T> superclass, Object... constructorArguments) {
-        this(superclass);
         this.constructorArguments = constructorArguments;
         this.constructorTypes = getArgumentTypes(constructorArguments);
     }
 
-    public T produceEntity() {
+	/**
+	 * Method creates wrapped instance of {@literal <T>} class
+	 * @return wrapped {@literal <T>} class instance which implements ChangeLogger interface
+	 */
+	public T produceEntity() {
         Enhancer enhancer = new Enhancer();
         enhancer.setInterceptDuringConstruction(false);
         enhancer.setSuperclass(superclass);
@@ -51,6 +64,9 @@ public class ChangeLoggerProducer<T> {
         }
     }
 
+    /*
+     * Class implements methods interception and collects names of modified fields
+     */
     private static final class MethodHandler implements MethodInterceptor, ChangeLogger {
 
         private static final String CHANGELOG_METHOD_NAME = "changelog";
