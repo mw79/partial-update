@@ -5,8 +5,16 @@
  */
 package patch.tools;
 
+/**
+ * Class contains some util methods
+ */
 public class PatchToolsUtil {
 
+	/**
+	 * Method returns Argument Types by array of Arguments
+	 * @param objects array of Arguments
+	 * @return array of Argument Types
+	 */
 	public static Class[] getArgumentTypes(Object[] objects) {
 		if (objects == null) {
 			return null;

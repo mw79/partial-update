@@ -9,20 +9,38 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.deser.ValueInstantiator;
 import patch.tools.ChangeLoggerProducer;
 
+/**
+ * Class based on ValueInstantiator which overrides some methods for
+ * {@literal <T>} POJOs wrappers instantiation
+ */
 public class WrappedValueInstantiator<T> extends ValueInstantiator {
 
     private final ChangeLoggerProducer<T> changeLoggerProducer;
 
-    public WrappedValueInstantiator(Class<T> targetClass) {
+	/**
+	 * Constructor for WrappedValueInstantiator
+	 * @param targetClass {@literal <T>} class for wrapper instantiation
+	 */
+	public WrappedValueInstantiator(Class<T> targetClass) {
         this.changeLoggerProducer = new ChangeLoggerProducer<>(targetClass);
     }
 
-    @Override
+	/**
+	 * Method implementation makes possible to use createUsingDefault method
+	 * for POJO wrapper instantiation
+	 * @return true
+	 */
+	@Override
     public boolean canCreateUsingDefault() {
         return true;
     }
 
-    @Override
+	/**
+	 * Method instantiate wrapper for POJO
+	 * @param ctxt deserialization context
+	 * @return POJO wrapped entity
+	 */
+	@Override
     public Object createUsingDefault(DeserializationContext ctxt) {
         return changeLoggerProducer.produceEntity();
     }

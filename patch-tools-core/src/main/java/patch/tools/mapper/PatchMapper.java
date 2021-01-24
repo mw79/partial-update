@@ -5,5 +5,9 @@
  */
 package patch.tools.mapper;
 
+/**
+ * Interface should be implemented in class which will be instantiated
+ * with PatchMapperProducer
+ */
 public interface PatchMapper {
 }

@@ -7,8 +7,15 @@ package patch.tools;
 
 import java.util.Map;
 
+/**
+ * Interface for getting modified fields and it's values as {@literal Map<String, Object>}
+ */
 public interface ChangeLogger {
 
-    Map<String, Object> changelog();
+	/**
+	 * Method should return all modified fields with it's values as {@literal Map<String, Object>}
+	 * @return modified fields with it's values
+	 */
+	Map<String, Object> changelog();
 
 }
