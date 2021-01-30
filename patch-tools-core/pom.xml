@@ -8,15 +8,38 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-  	    <groupId>in.multi-tools</groupId>
+        <groupId>in.multi-tools</groupId>
         <artifactId>patch-tools</artifactId>
-        <version>0.1.0-SNAPSHOT</version>
+        <version>0.1.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>patch-tools-core</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
+    <version>0.1.0</version>
     <packaging>jar</packaging>
+
+    <name>${project.groupId}:${project.artifactId}</name>
+    <description>Core module for Patch Tools project</description>
+    <url>https://github.com/mw79/patch-tools/tree/main/patch-tools-core</url>
+
+    <developers>
+        <developer>
+            <name>Dmytro Bublyk</name>
+            <email>dmitry.n.bublik79@gmail.com</email>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>https://github.com/mw79/patch-tools.git</connection>
+        <url>https://github.com/mw79/patch-tools/tree/main/patch-tools-core</url>
+    </scm>
+
+    <licenses>
+        <license>
+            <name>The Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+        </license>
+    </licenses>
 
     <properties>
         <compiler.version.source>1.7</compiler.version.source>
@@ -55,14 +78,6 @@
                     <target>${compiler.version.target}</target>
                 </configuration>
             </plugin>
-	          <plugin>
-			          <groupId>org.apache.maven.plugins</groupId>
-			          <artifactId>maven-source-plugin</artifactId>
-	          </plugin>
-		        <plugin>
-				        <groupId>org.apache.maven.plugins</groupId>
-				        <artifactId>maven-javadoc-plugin</artifactId>
-		        </plugin>
         </plugins>
     </build>
 
