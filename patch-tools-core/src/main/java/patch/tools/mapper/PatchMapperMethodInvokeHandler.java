@@ -51,21 +51,29 @@ public class PatchMapperMethodInvokeHandler implements MethodInterceptor {
     public Object intercept(Object o, Method method, Object[] objects, MethodProxy methodProxy) throws Throwable {
     	return isMethodAbstract(method) ?
     		invokeAbstractMethod(o, method, objects) :
-	      invokeImplementedMethod(o, method, objects);
+	      invokeImplementedMethod(o, method, objects, methodProxy);
     }
 
     private boolean isMethodAbstract(Method method) {
 	    return (method.getModifiers() & Modifier.ABSTRACT) != 0;
     }
 
-    private Object invokeImplementedMethod(Object o, Method method, Object[] objects) throws Throwable {
+    private Object invokeImplementedMethod(Object o, Method method, Object[] objects, MethodProxy methodProxy)
+				throws Throwable {
 	    Class<?> declaringClass = method.getDeclaringClass();
-	    return LOOKUP_CONSTRUCTOR
-			    .newInstance(declaringClass)
-			    .unreflectSpecial(method, declaringClass)
-			    .bindTo(o)
-			    .invokeWithArguments(objects);
+	    return declaringClass.isInterface() ?
+					invokeDefaultInterfaceMethod(declaringClass, o, method, objects) :
+					methodProxy.invokeSuper(o, objects);
     }
+
+    private Object invokeDefaultInterfaceMethod(Class<?> declaringClass, Object o, Method method, Object[] objects)
+				throws Throwable {
+			return LOOKUP_CONSTRUCTOR
+					.newInstance(declaringClass)
+					.unreflectSpecial(method, declaringClass)
+					.bindTo(o)
+					.invokeWithArguments(objects);
+		}
 
     private Object invokeAbstractMethod(Object o, Method method, Object[] objects) throws JsonMappingException {
 	    ObjectMapper converter = converters.get(method);
