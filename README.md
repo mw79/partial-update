@@ -1,4 +1,4 @@
-### Patch Tools
+### Partial Update library
 This library created to help serialize, deserialize, pass through application
 layers and collect all changes on each layer in DTOs, Models, Entities etc.
 ### Subject intro
@@ -39,13 +39,13 @@ If we'll deserialize body to `Map<String, Object>` structure we could
 check is the field present in data or not. But we should use unchecked casting
 for proceeding each field value and it will excluded types checking on compile
 stage.
-Patch Tools library contains utils which should help to proceed this cases.
-### Patch Tools Core
-Patch Tools Core library contains the basic classes and helpers for creating
+Partial Update library contains utils which should help to proceed this cases.
+### Partial Update Core
+Partial Update Core library contains the basic classes and helpers for creating
 POJO wrappers which collect fields which are changed by calling setters. Also
 it contains classes and helpers for creating converters based on Jackson's
 ObjectMapper.
-##### PatchTools intro
+##### Partial Update intro
 The main thing of this library is POJO wrapper which handles all setters calls
 and adds changed field names to internal `Set<String>`. Also this wrapper
 implements `ChangeLogger` interface which contains single method
@@ -104,9 +104,9 @@ Map<String, Object> changeLog = ((ChangeLogger) user).changelog();
     }
 */
 ```
-##### Patch Mapper Producer
+##### Partial Update Mapper Producer
 For more comfortable mapping ChangeLogger between different layers POJOs
-(DTO, Model, Entity etc.) in Patch Tools library implemented PatchMapperProducer
+(DTO, Model, Entity etc.) in Partial Update library implemented PartialUpdateMapperProducer
 class which could instantiate wrappers for abstract classes or interfaces with
 abstract methods handling, interpreting its input parameters and return values
 and using corresponding ObjectMapper for mapping POJOs.<br>
@@ -119,4 +119,4 @@ method arguments to result instance one by one.
 In the first case interceptor will map to first method argument all the rest
 method arguments one by one.
 Example for both of this cases we could see at
-[PatchMapperProducerTest.java](patch-tools-core/src/test/java/patch/tools/mapper/PatchMapperProducerTest.java).
+[PartialUpdateMapperProducerTest.java](partial-update-core/src/test/java/partial/update/mapper/PartialUpdateMapperProducerTest.java).
