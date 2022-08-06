@@ -17,10 +17,6 @@ Last version `0.1.0`
 Kotlin: `implementation("in.multi-tools:partial-update:0.1.0")`
 
 Groovy: `implementation 'in.multi-tools:partial-update:0.1.0'`
-
-#### Other
-
-
 ### Subject intro
 While implementing HTTP PATCH method for partially update we
 should deserialize data from request body to DTO, proceed
