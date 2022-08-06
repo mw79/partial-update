@@ -1,6 +1,26 @@
 ### Partial Update library
 This library created to help serialize, deserialize, pass through application
 layers and collect all changes on each layer in DTOs, Models, Entities etc.
+
+### Using
+Last version `0.1.0`
+#### Maven
+```
+<dependency>
+  <groupId>in.multi-tools</groupId>
+  <artifactId>partial-update</artifactId>
+  <version>0.1.0</version>
+  <type>pom</type>
+</dependency>
+```
+#### Gradle
+Kotlin: `implementation("in.multi-tools:partial-update:0.1.0")`
+
+Groovy: `implementation 'in.multi-tools:partial-update:0.1.0'`
+
+#### Other
+
+
 ### Subject intro
 While implementing HTTP PATCH method for partially update we
 should deserialize data from request body to DTO, proceed
